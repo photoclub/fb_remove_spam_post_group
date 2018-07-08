@@ -1,0 +1,33 @@
+{
+  "description": "Auto delete & block LiveStream in facebook groups extensions",
+  "manifest_version": 2,
+  "name": "Del & Block Facebook Group",
+  "icons": {
+    "16": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon.png",
+    "default_title": "Del LiveStream",
+    "default_popup": "popup/popup.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.facebook.com/*"
+      ],
+      "js": [
+        "libs/jquery.js",
+        "scanner.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "version": "1.0.0",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
