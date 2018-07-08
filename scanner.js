@@ -31,7 +31,6 @@ function _grab_data() {
     for (var i = 0; i < feeds.length; i++) {
         var post = feeds.eq(i);
         var text = post.text();
-        console.log(text);
         if (/SettingsClick/.test(text)) _ban_list.push(post);
         if (/UnavailableThis/.test(text) || /shared a post/.test(text)) _delete_list.push(post);
     }
