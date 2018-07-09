@@ -18,7 +18,7 @@ function run() {
 
         setTimeout(function () {
             window.location.reload();
-        }, 20000);
+        }, 30000);
     });
 }
 
@@ -30,9 +30,13 @@ function _grab_data() {
     var feeds = $('div#pagelet_pending_queue div[role=feed] > div');
     for (var i = 0; i < feeds.length; i++) {
         var post = feeds.eq(i);
+        var html = post.html();
         var text = post.text();
-        if (/SettingsClick/.test(text)) _ban_list.push(post);
-        if (/UnavailableThis/.test(text) || /shared a post/.test(text)) _delete_list.push(post);
+
+		if(/img sp_lLy5ll4_TNH sx_dd416f/.test(html)) continue; // banned
+
+        if (/is live now/.test(text) && /class="mtm _5pcm"/.test(html)) _ban_list.push(post);
+		if (/UnavailableThis/.test(text) || /class="mtm _5pcm"/.test(html)) _delete_list.push(post);
     }
 }
 
@@ -57,8 +61,10 @@ function _process() {
                         chrome.storage.sync.get({
                             nick_counter: 0
                         }, function (items) {
-                            chrome.storage.sync.set({nick_counter: items.nick_counter + 1}, function () {
-                                window.location.reload(true);
+                            chrome.storage.sync.set({nick_counter: items.nick_counter + 1}, function () { 
+								setTimeout(function(){
+									window.location.reload(true);
+								}, 1000);
                             });
                         });
                     }, 2000);
@@ -82,8 +88,8 @@ function _process() {
                         window.location.reload(true);
                     });
                 });
-            }, 2000);
-        }, 1000);
+            }, 3000);
+        }, 2000);
     }
 
 }
