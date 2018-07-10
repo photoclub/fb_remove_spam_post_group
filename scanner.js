@@ -35,7 +35,7 @@ function _grab_data() {
 
 		if(/img sp_lLy5ll4_TNH sx_dd416f/.test(html)) continue; // banned
 
-        if (/is live now/.test(text) && /class="mtm _5pcm"/.test(html)) _ban_list.push(post);
+        if ((/is live now/.test(text) || /đã phát trực tiếp/.test(text)) && /class="mtm _5pcm"/.test(html)) _ban_list.push(post);
 		if (/UnavailableThis/.test(text) || /class="mtm _5pcm"/.test(html)) _delete_list.push(post);
     }
 }
