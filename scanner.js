@@ -35,7 +35,7 @@ function _grab_data() {
 
         if (/img sp_lLy5ll4_TNH sx_dd416f/.test(html)) continue; // banned
         if ((/is live now/.test(text) || /was live/.test(text) || /đã phát trực tiếp/.test(text) || /đang phát trực tiếp/.test(text)) && /class="mtm _5pcm"/.test(html)) _ban_list.push(post);
-        if (/UnavailableThis/.test(text) || /class="mtm _5pcm"/.test(html) || /Nhóm công khai/.test(text) || /Đính kèm không khả dụng/.test(text) || /Hotline/.test(text)) _delete_list.push(post);
+        if (_ban_list.length === 0) if (/UnavailableThis/.test(text) || /class="mtm _5pcm"/.test(html) || /Nhóm công khai/.test(text) || /Đính kèm không khả dụng/.test(text) || /Hotline/.test(text)) _delete_list.push(post);
     }
 }
 
@@ -52,46 +52,42 @@ function _process() {
         setTimeout(function () {
             $('a[ajaxify^="/ajax/groups/mall/delete_and_ban_member"]')[0].click();
             setTimeout(function () {
-                $('.uiInputLabelCheckbox')[0].click(function () {
-                    $('.layerConfirm').click(function () {
-                        setTimeout(function () {
-                            $('button[data-testid=delete_post_confirm_button]')[0].click(function () {
+                $('.uiInputLabelCheckbox')[0].click();
+                $('.layerConfirm').click();
+                setTimeout(function () {
+                    $('button[data-testid=delete_post_confirm_button]')[0].click();
+                    setTimeout(function () {
+                        chrome.storage.sync.get({
+                            nick_counter: 0
+                        }, function (items) {
+                            chrome.storage.sync.set({nick_counter: items.nick_counter + 1}, function () {
                                 setTimeout(function () {
-                                    chrome.storage.sync.get({
-                                        nick_counter: 0
-                                    }, function (items) {
-                                        chrome.storage.sync.set({nick_counter: items.nick_counter + 1}, function () {
-                                            setTimeout(function () {
-                                                window.location.reload(true);
-                                            }, 2000);
-                                        });
-                                    });
-                                }, 3000);
+                                    window.location.reload(true);
+                                }, 1000);
                             });
-                        }, 2000);
-                    });
-                });
+                        });
+                    }, 2000);
+                }, 1000);
             }, 2000);
         }, 1000);
     }
 
-    if (_ban_list.length == 0 && _delete_list.length > 0) {
+    if (_delete_list.length > 0) {
         // click delete
         var delBtn = $(_delete_list[0]).find('a[ajaxify^="/ajax/groups/mall/delete/"]')[0];
         window.scrollTo(0, delBtn.offsetTop);
         delBtn.click();
         setTimeout(function () {
-            $('button[data-testid=delete_post_confirm_button]')[0].click(function () {
-                setTimeout(function () {
-                    chrome.storage.sync.get({
-                        post_counter: 0
-                    }, function (items) {
-                        chrome.storage.sync.set({post_counter: items.post_counter + 1}, function () {
-                            window.location.reload(true);
-                        });
+            $('button[data-testid=delete_post_confirm_button]')[0].click();
+            setTimeout(function () {
+                chrome.storage.sync.get({
+                    post_counter: 0
+                }, function (items) {
+                    chrome.storage.sync.set({post_counter: items.post_counter + 1}, function () {
+                        window.location.reload(true);
                     });
-                }, 3000);
-            });
+                });
+            }, 3000);
         }, 2000);
     }
 
