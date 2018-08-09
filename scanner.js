@@ -35,7 +35,7 @@ function _grab_data() {
 
         if (/img sp_lLy5ll4_TNH sx_dd416f/.test(html)) continue; // banned
         if ((/is live now/.test(text) || /was live/.test(text) || /đã phát trực tiếp/.test(text) || /đang phát trực tiếp/.test(text)) && /class="mtm _5pcm"/.test(html)) _ban_list.push(post);
-        if (_ban_list.length === 0) if (/UnavailableThis/.test(text) || /class="mtm _5pcm"/.test(html) || /Nhóm công khai/.test(text) || /Đính kèm không khả dụng/.test(text) || /Hotline/.test(text)) _delete_list.push(post);
+        //if (_ban_list.length === 0) if (/UnavailableThis/.test(text) || /class="mtm _5pcm"/.test(html) || /Nhóm công khai/.test(text) || /Đính kèm không khả dụng/.test(text) || /Hotline/.test(text)) _delete_list.push(post);
     }
 }
 
@@ -53,6 +53,8 @@ function _process() {
             $('a[ajaxify^="/ajax/groups/mall/delete_and_ban_member"]')[0].click();
             setTimeout(function () {
                 $('.uiInputLabelCheckbox')[0].click();
+                $('.uiInputLabelCheckbox')[1].click();
+                $('.uiInputLabelCheckbox')[2].click();
                 $('.layerConfirm').click();
                 setTimeout(function () {
                     $('button[data-testid=delete_post_confirm_button]')[0].click();
